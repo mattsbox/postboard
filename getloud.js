@@ -23,7 +23,7 @@ var server=http.createServer(function(req,res)
 			});
 		}
 	});
-server.listen(1776,"127.0.0.1");
+server.listen(process.env.PORT || 1776);
 var sio=io.listen(server);
 var posts=Array();
 var index=0;
