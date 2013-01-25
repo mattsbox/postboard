@@ -1,5 +1,5 @@
 {
-  	"name": "Get Loud",
+  	"name": "getloud",
 	"version":"0.0.1",
   	"description": "Idea enhancer",
   	"homepage": "",
@@ -24,11 +24,11 @@
     		"url": "git://github.com/mattsbox/GetLoud.git"
   	},
   	"dependencies": {
-    		"socket.io": "0.9.*"
+    		"socket.io": "0.9.x"
   	},
   	"main": "getloud",
   	"engines": {
-    		"node": "0.8.*",
-		"npm": "1.1.*"	
-  	}, 
+    		"node": "0.8.x",
+		"npm": "1.1.x"	
+  	}
 }
