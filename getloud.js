@@ -40,7 +40,6 @@ var server=http.createServer(function(req,res)
 			});
 		}
 	});
-server.listen(process.env.PORT || 1776);
 var sio=io.listen(server);
 var posts=Array();
 var index=0;
@@ -55,6 +54,7 @@ sio.configure(function(){
 	sio.set("transports",["xhr-polling"]);
 	sio.set("polling duration",10);
 });
+server.listen(process.env.PORT || 1776);
 sio.sockets.on("connection",function(socket)
 {
 	socket.nickname="Guest"+guestserial;
