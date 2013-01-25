@@ -1,1 +1,1 @@
-web: node getloud.js
+web: nodejs getloud.js
