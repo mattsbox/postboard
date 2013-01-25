@@ -18,7 +18,9 @@ var server=http.createServer(function(req,res)
 				res.setHeader("Content-Encoding","utf-8");
 				res.writeHead(200);
 				console.log("Succesful query for "+req.url);
-				res.end(data.replace("%PORT%",process.env.PORT||1776));
+				data=(""+data).replace("%PORT%",process.env.PORT||1776);
+
+				res.end(data);
 			});
 		}
 	});
