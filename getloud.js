@@ -19,7 +19,23 @@ var server=http.createServer(function(req,res)
 				res.writeHead(200);
 				console.log("Succesful query for "+req.url);
 				data=(""+data).replace("%PORT%",process.env.PORT||1776);
-
+				res.end(data);
+			});
+		}
+		else if(req.url="/jquery")
+		{
+			fs.readFile(__dirname+"/jquery.min.js",function(err,data)
+			{
+				if(err)
+				{
+					res.writeHead(404);
+					console.log("Failed query for "+req.url);
+					res.end(JSON.stringify(err));
+				}
+				res.setHeader("Content-Type","text/javascript");
+				res.setHeader("Content-Encoding","utf-8");
+				res.writeHead(200);
+				console.log("Succesful query for "+req.url);
 				res.end(data);
 			});
 		}
