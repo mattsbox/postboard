@@ -51,6 +51,10 @@ function random(l,u)
 {
 	return ((u-l)*Math.random())+l;
 }
+sio.configure(function(){
+	sio.set("transports",["xhr-polling"]);
+	sio.set("polling duration",10);
+});
 sio.sockets.on("connection",function(socket)
 {
 	socket.nickname="Guest"+guestserial;
