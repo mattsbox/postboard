@@ -1,6 +1,5 @@
 var http=require("http");
 var fs=require("fs");
-
 var io=require("socket.io");
 var chat=require("./loudroom.js");
 var server=http.createServer(function(req,res)
@@ -19,7 +18,7 @@ var server=http.createServer(function(req,res)
 				res.setHeader("Content-Encoding","utf-8");
 				res.writeHead(200);
 				console.log("Succesful query for "+req.url);
-				res.end(data);
+				res.end(data.replace("%PORT%",process.env.PORT||1776));
 			});
 		}
 	});
