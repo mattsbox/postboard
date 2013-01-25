@@ -52,7 +52,7 @@
 			(function(){
 				var socket;
 				$(document).ready(function(){
-					socket=io.connect("http://127.0.0.1:1776");
+					socket=io.connect("https://safe-waters-4183.herokuapp.com");
 					socket.on("update",function(data)
 					{
 						$("#content").append("<div class=\"post\" id=\"msg"+data["serial"]+"\" style=\"transform:rotate("+data["rot"]+"deg);-moz-transform:rotate("+data["rot"]+"deg);-webkit-transform:rotate("+data["rot"]+"deg);-o-transform:rotate("+data["rot"]+"deg);left:"+data["left"]+"%;top:"+data["top"]+"%;\"><a href=\"#\">"+data["msg"]+"</a></div>");
