@@ -1,0 +1,34 @@
+{
+  	"name": "Get Loud",
+	"version":"0.0.1",
+  	"description": "Idea enhancer",
+  	"homepage": "",
+  	"keywords": [
+    		"idea",
+    		"loud",
+    		"realtime",
+    		"socket.io",
+    		"getloud",
+    		"awesome"
+  	],
+  	"author": {
+    		"name": "Matt Craddock",
+    		"email": "mattsbox@zoho.com"
+  	},
+  	"contributors": [{
+      		"name": "Matt Craddock",
+      		"email": "mattsbox@zoho.com"
+    	}],
+  	"repository": {
+    		"type": "git",
+    		"url": "git://github.com/mattsbox/GetLoud.git"
+  	},
+  	"dependencies": {
+    		"socket.io": "0.9.*"
+  	},
+  	"main": "getloud",
+  	"engines": {
+    		"node": "0.8.*",
+		"npm": "1.1.*"	
+  	}, 
+}
