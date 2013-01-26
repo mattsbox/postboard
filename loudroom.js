@@ -35,7 +35,7 @@ function dispose_user(socket,users)
 }
 function new_message(data,logfile,users,socket)
 {
-	var string=socket.nickname+": "+escape(data);
+	var string=socket.nickname+": "+(data);
 	fs.appendFile(__dirname+"/"+logfile,string,function(err){});
 	for(socket in users)
 	{
