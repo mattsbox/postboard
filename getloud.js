@@ -52,9 +52,10 @@ function random(l,u)
 }
 sio.configure(function(){
 	sio.set("transports",["xhr-polling"]);
-	sio.set("polling duration",10);
+	sio.set("polling duration",20);
 });
 server.listen(process.env.PORT || 1776);
+socket=
 sio.sockets.on("connection",function(socket)
 {
 	socket.nickname="Guest"+guestserial;
