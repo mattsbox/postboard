@@ -12,7 +12,7 @@ function send(data,type,res)
 function badurl(url,res)
 {
 	res.writeHead(404);
-	console.log("Failed query for "+req.url);
+	console.log("Failed query for "+url);
 }
 var server=http.createServer(function(req,res)
 	{
