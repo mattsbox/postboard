@@ -24,7 +24,8 @@
     		"url": "git://github.com/mattsbox/GetLoud.git"
   	},
   	"dependencies": {
-    		"socket.io": "0.9.x"
+    		"socket.io": "0.9.x",
+		"sanitizer": "0.0.15"
   	},
   	"main": "getloud",
   	"engines": {
