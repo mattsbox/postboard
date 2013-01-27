@@ -16,7 +16,7 @@ function badurl(url,res)
 }
 var server=http.createServer(function(req,res)
 	{
-		//var txttest=/room[0-9]+.txt/;
+		var txttest=/room[0-9]+.txt/;
 		if(req.url=="/")
 		{
 			fs.readFile(__dirname+"/getloud.html",function(err,data)
@@ -34,16 +34,15 @@ var server=http.createServer(function(req,res)
 				send(data,"javascript",res);
 			});
 		}
-		//Ends with "txt"
-		/*else if(txttest.exec(req.url))//(req.url.indexOf(".txt",req.url.length-4)!=-1)
+		else if(txttest.exec(req.url))
 		{
-			fs.readFile(__dirname+"/test.txt",function(err,data)
+			fs.readFile(__dirname+"/"+req.url,function(err,data)
 			{
 				if(err){badurl(req.url,res);}
 				send(data,false,res);
 			});
-
-		}*/
+		}
+		else{badurl(req.url,res);}
 	});
 var sio=io.listen(server);
 var posts=Array();
