@@ -81,8 +81,13 @@ sio.sockets.on("connection",function(socket)
 		}
 		else
 		{
-			active_rooms[data]=chat.create_room(data,socket);
+			active_rooms[data]=chat.create_room(data,socket,sio);
 		}
+		if(socket.room)
+		{
+			socket.room.evict(socket);
+		}
+		socket.room=active_rooms[data];
 		console.log("later it's here: "+active_rooms[data]);
 	});
 	for(var x=0;x<20;x++)
