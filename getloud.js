@@ -2,6 +2,7 @@ var http=require("http");
 var fs=require("fs");
 var io=require("socket.io");
 var chat=require("./loudroom.js");
+var sanitizer=require("sanitizer");
 function send(data,type,res)
 {
 	if(type){res.setHeader("Content-Type","text/"+type);}
@@ -65,7 +66,7 @@ sio.sockets.on("connection",function(socket)
 	guestserial++;
 	socket.on("newpost",function(data)
 	{
-		console.log(data);
+		data=sanitizer.escape(data);
 		var post={"id":index,"rot":random(-45,45),"top":random(10,70),"left":random(0,70),"msg":data,"serial":serial};
 		fs.writeFile(__dirname+"/room"+serial+".txt",data+"\nChat room\n----------\n",function(err)
 		{

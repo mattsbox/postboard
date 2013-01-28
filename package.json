@@ -25,7 +25,8 @@
   	},
   	"dependencies": {
     		"socket.io": "0.9.x",
-		"sanitizer": "0.0.15"
+		"sanitizer": "0.0.15",
+		"strftime": "0.5.x"
   	},
   	"main": "getloud",
   	"engines": {
