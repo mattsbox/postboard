@@ -5,7 +5,7 @@ var chat=require("./loudroom.js");
 var sanitizer=require("sanitizer");
 function send(data,type,res)
 {
-	if(type){res.setHeader("Content-Type","text/"+type);}
+	if(type){res.setHeader("Content-Type",type);}
 	res.setHeader("Content-Encoding","utf-8");
 	res.writeHead(200);
 	res.end(data);
@@ -23,7 +23,7 @@ var server=http.createServer(function(req,res)
 		fs.readFile(__dirname+"/getloud.html",function(err,data)
 		{
 			if(err){badurl(req.url,res);}
-			send(data,"html",res);
+			send(data,"text/html",res);
 		});
 	}
 	else if(req.url=="/jquery")
@@ -31,7 +31,15 @@ var server=http.createServer(function(req,res)
 		fs.readFile(__dirname+"/jquery.min.js",function(err,data)
 		{
 			if(err){badurl(req.url,res);}
-			send(data,"javascript",res);
+			send(data,"text/javascript",res);
+		});
+	}
+	else if(req.url=="/favicon.ico")
+	{
+		fs.readFile(__dirname+"/favicon.ico",function(err,data)
+		{
+			if(err){badurl(req.url,res);}
+			send(data,"image/x-icon",res);
 		});
 	}
 	else if(txttest.exec(req.url))
