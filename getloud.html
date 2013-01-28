@@ -52,7 +52,7 @@
 			(function(){
 				var socket;
 				$(document).ready(function(){
-					socket=io.connect("https://safe-waters-4183.herokuapp.com");
+					socket=io.connect("localhost");//io.connect("https://safe-waters-4183.herokuapp.com");
 					socket.on("update",function(data)
 					{
 						$("#content").append("<div class=\"post\" id=\"msg"+data["serial"]+"\" style=\"transform:rotate("+data["rot"]+"deg);-moz-transform:rotate("+data["rot"]+"deg);-webkit-transform:rotate("+data["rot"]+"deg);-o-transform:rotate("+data["rot"]+"deg);left:"+data["left"]+"%;top:"+data["top"]+"%;\"><a href=\"#\">"+data["msg"]+"</a></div>");
@@ -80,6 +80,20 @@
 					socket.on("newchat",function(data)
 					{
 						$("#chatcontent").append(data+"<br/>");
+					});
+					socket.on("failedpost",function()
+					{
+						e=document.createElement("DIV");
+						$(e).attr("class","message");
+						$(e).attr("id","msg");
+						e.style.backgroundColor="#FF0000";
+						e.style.height="100px";
+						e.innerHTML="Oh no! We couldn't post your message!<br/>Try again in a minute<br/><br/><span style=\"border-bottom:1px solid black\">Click me and I'll go away</span>";
+						$(e).click(function()
+						{
+							$("#msg").remove();
+						});
+						document.body.appendChild(e);
 					});
 					$("#message").keydown(function(e){if(e.keyCode==13){post();}});
 					$("#submit").click(post);

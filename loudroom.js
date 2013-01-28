@@ -1,6 +1,7 @@
 var fs=require("fs");
 var qs=require("querystring");
 var sanitizer=require("sanitizer");
+var strftime=require("strftime");
 exports.create_room=function(n,socket,nio)
 {
 	var room=	{logfile:"room"+n+".txt",
@@ -24,9 +25,16 @@ function welcome_user(socket,io,serial,logfile)
 		}
 		else
 		{
-			console.log(data);
+			data="<a href=\"/room"+serial+".txt\">Link to chat log</a><br/><hr>"+data;
+			fs.readFile(__dirname+"/name"+serial,function(nameerr,namedata)
+			{
+				if(nameerr){socket.emit("enterroom",data);}
+				else
+				{
+					socket.emit("enterroom","<span style=\"font-weight:bold;\">"+namedata+"</span><br/>"+data);
+				}
+			});
 			socket.join(serial);
-			socket.emit("enterroom",data);
 			socket.on("newchat",function(data){new_message(data,io,logfile,serial,socket);});
 			socket.on("exit",function(data){dispose_user(socket,serial);});
 		}
@@ -39,7 +47,7 @@ function dispose_user(socket,serial)
 }
 function new_message(data,io,logfile,serial,socket)
 {
-	var string=socket.nickname+": "+sanitizer.sanitize(data);
-	fs.appendFile(__dirname+"/"+logfile,string,function(err){});
+	var string=socket.nickname+"["+strftime("%H:%M:%S")+"]: "+sanitizer.sanitize(data);
+	fs.appendFile(__dirname+"/"+logfile,string+" ["+strftime("%B %d %y %H:%M:%S")+"]\n",function(err){});
 	io.sockets.in(serial).emit("newchat",string);
 }

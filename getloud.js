@@ -15,35 +15,34 @@ function badurl(url,res)
 	console.log("Failed query for "+url);
 }
 var server=http.createServer(function(req,res)
+{
+	var txttest=/room[0-9]+.txt/;
+	if(req.url=="/")
 	{
-		var txttest=/room[0-9]+.txt/;
-		if(req.url=="/")
+		fs.readFile(__dirname+"/getloud.html",function(err,data)
 		{
-			fs.readFile(__dirname+"/getloud.html",function(err,data)
-			{
-				if(err){badurl(req.url,res);}
-				data=(""+data).replace("%PORT%",process.env.PORT||1776);
-				send(data,"html",res);
-			});
-		}
-		else if(req.url=="/jquery")
+			if(err){badurl(req.url,res);}
+			send(data,"html",res);
+		});
+	}
+	else if(req.url=="/jquery")
+	{
+		fs.readFile(__dirname+"/jquery.min.js",function(err,data)
 		{
-			fs.readFile(__dirname+"/jquery.min.js",function(err,data)
-			{
-				if(err){badurl(req.url,res);}
-				send(data,"javascript",res);
-			});
-		}
-		else if(txttest.exec(req.url))
+			if(err){badurl(req.url,res);}
+			send(data,"javascript",res);
+		});
+	}
+	else if(txttest.exec(req.url))
+	{
+		fs.readFile(__dirname+"/"+req.url,function(err,data)
 		{
-			fs.readFile(__dirname+"/"+req.url,function(err,data)
-			{
-				if(err){badurl(req.url,res);}
-				send(data,false,res);
-			});
-		}
-		else{badurl(req.url,res);}
-	});
+			if(err){badurl(req.url,res);}
+			send(data,false,res);
+		});
+	}
+	else{badurl(req.url,res);}
+});
 var sio=io.listen(server);
 var posts=Array();
 var index=0;
@@ -68,12 +67,36 @@ sio.sockets.on("connection",function(socket)
 	{
 		console.log(data);
 		var post={"id":index,"rot":random(-45,45),"top":random(10,70),"left":random(0,70),"msg":data,"serial":serial};
-		sio.sockets.emit("update",post);
-		if(posts[index]){sio.sockets.emit("remove",index);}
-		posts[index]=post;
-		index++;
-		if(index>19){index=0;}
-		serial++;
+		fs.writeFile(__dirname+"/room"+serial+".txt",data+"\nChat room\n----------\n",function(err)
+		{
+			if(err)
+			{
+				socket.emit("failedpost");
+			}
+			else
+			{
+				fs.writeFile(__dirname+"/name"+serial,data,function(err)
+				{
+					if(err)
+					{
+						fs.unlink(__dirname+"/room"+serial+".txt",function(err){});
+						socket.emit("failedpost");
+					}
+					else
+					{
+						sio.sockets.emit("update",post);
+						if(posts[index]){sio.sockets.emit("remove",index);}
+						posts[index]=post;
+						index++;
+						if(index>19){index=0;}
+						serial++;
+					}
+					
+				});
+			}
+			
+		});
+		//Create txt for room(serial) and use it in enterroom to get name and such
 	});
 	socket.on("enterroom",function(data)
 	{
