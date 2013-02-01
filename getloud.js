@@ -55,10 +55,15 @@ server.listen(process.env.PORT || 1776);
 socket=
 sio.sockets.on("connection",function(socket)
 {
+	socket.posttime=0;
+	socket.chattime=0;
 	socket.nickname="Guest"+guestserial;
 	guestserial++;
 	socket.on("newpost",function(data)
 	{
+		var t=new Date().getTime();
+		if(t-socket.posttime<60000){return;}
+		socket.posttime=t;
 		data=sanitizer.escape(data);
 		var post={"id":index,"rot":random(-45,45),"top":random(10,70),"left":random(0,70),"msg":socket.nickname+": "+data,"serial":serial};
 		fs.writeFile(__dirname+"/room"+serial+".txt",data+"\nChat room\n----------\n",function(err)

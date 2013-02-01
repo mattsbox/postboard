@@ -47,6 +47,9 @@ function dispose_user(socket,serial)
 }
 function new_message(data,io,logfile,serial,socket)
 {
+	var t=new Date().getTime();
+	if(t-socket.chattime<1000){return;}
+	socket.chattime=t;
 	var string=socket.nickname+"["+strftime("%H:%M:%S")+"]: "+sanitizer.sanitize(data);
 	fs.appendFile(__dirname+"/"+logfile,string+" ["+strftime("%B %d %y %H:%M:%S")+"]\n",function(err){});
 	io.sockets.in(serial).emit("newchat",string);
